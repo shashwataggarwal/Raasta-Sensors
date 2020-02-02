@@ -36,18 +36,18 @@ addPoint = (z)=>{
 
     if(amountAdded>avgAmount){
         pointsZ.shift();
-        document.getElementById("c").innerHTML = "FLIP Ssdfsdfsdfsdf!! = " ;
+        // document.getElementById("c").innerHTML = "FLIP Ssdfsdfsdfsdf!! = " ;
         let loopIndex = 0;  
         pointsZ.forEach((q)=>{
-            document.getElementById("para").innerHTML = "HAHAHAHAH!! = " + loopIndex ;
+            // document.getElementById("para").innerHTML = "HAHAHAHAH!! = " + loopIndex ;
             let avgWeight = hammingWeight(loopIndex, avgAmount);
-            document.getElementById("c").innerHTML = "AVG WEIGHT = " + avgWeight;
+            // document.getElementById("c").innerHTML = "AVG WEIGHT = " + avgWeight;
             totalZ += avgWeight*q;
-            document.getElementById("c").innerHTML = "YUASYUSDYSDAYDSAYSDA = " + totalZ; 
+            // document.getElementById("c").innerHTML = "YUASYUSDYSDAYDSAYSDA = " + totalZ; 
             loopIndex+=1;
             
         });
-        document.getElementById("c").innerHTML = "BLAHHHH!! = " ;
+        // document.getElementById("c").innerHTML = "BLAHHHH!! = " ;
         let tempPointZ = totalZ*1.0/(avgAmount*1.0);
         avgPointsZ.push(tempPointZ);
         flipState(tempPointZ);
@@ -56,7 +56,7 @@ addPoint = (z)=>{
 }
 
 flipState= (f) => {
-    document.getElementById("c").innerHTML = "FLIP STATE CALLED!! = " ;
+    // document.getElementById("c").innerHTML = "FLIP STATE CALLED!! = " ;
     if(f<resetAmplitude) state=0;
     if(f>maxAmplitude) state=2;
     if(f>minAmplitude && f<maxAmplitude && state!=2) state=1;
@@ -98,10 +98,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
         window.addEventListener('deviceorientation', (eventData)=> {
             var dir = eventData.alpha
             deviceOrientationHandler(dir);
+            // console.log(eventData);
         }, false);
     } 
     else {
-        document.getElementById("orientation").innerHTML = "OOPSIES."
+        document.getElementById("orientation").innerHTML = "No orientation sensor"
 };
 
     function deviceOrientationHandler(dir) {
@@ -111,30 +112,30 @@ document.addEventListener("DOMContentLoaded", function(event) {
             lastDirection = curDirection;
         }
         else{
-            if(lastDirection - curDirection > 75){
+            if(lastDirection - curDirection < -75){
                 turnHeading = "left";
-                document.getElementById("turn").innerHTML = "TURN left";
+                // document.getElementById("turn").innerHTML = "TURN left";
                 leftCounter+=1;
                 lastDirection = curDirection;
             }
-            else if(lastDirection - curDirection < -75){
+            else if(lastDirection - curDirection > 75){
                 turnHeading = "right";
-                document.getElementById("turn").innerHTML = "TURN right";
+                // document.getElementById("turn").innerHTML = "TURN right";
                 rightCounter+=1;
                 lastDirection = curDirection;
             }
             else{
                 turnHeading = "straight";
                 straightCounter+=1;
-                document.getElementById("turn").innerHTML = "TURN straight";
+                // document.getElementById("turn").innerHTML = "TURN straight";
                 // if(Math.abs(lastDirection-curDirection)>45){
                 //     lastDirection = curDirection;
                 // }
             }
         }
         
-        // document.getElementById("turn").innerHTML = "TURN " + turnHeading;
-        document.getElementById("orientation").innerHTML = "DIRECTION" + lastDirection + ":" + curDirection + leftCounter + ":" + rightCounter + ":" + straightCounter;
+        document.getElementById("turn").innerHTML = "left count = " + leftCounter + " : " + "right count = "+rightCounter;
+        document.getElementById("orientation").innerHTML = "DIRECTION " + lastDirection + " : " + curDirection;
       
       // Rotate the disc of the compass.
       // Laat de kompas schijf draaien.
@@ -164,17 +165,18 @@ try {
             console.log('Cannot connect to the sensor.');
         }
         console.log("NO ERROdfdgmslkgjlR");
-        text.innerHTML = "CODERSSS";
+        // text.innerHTML = "CODERSSS";
     });
     accelerometer.addEventListener('reading', () => {
         
-        document.getElementById("x").innerHTML = "Acceleration along X-axis: " + accelerometer.x;
-        document.getElementById("y").innerHTML = "Acceleration along Y-axis: " + accelerometer.y;
-        document.getElementById("z").innerHTML = "Acceleration along Z-axis: " + accelerometer.z;
+        document.getElementById("x").innerHTML = "Acceleration along X-axis: " + accelerometer.x.toFixed(3);
+        document.getElementById("y").innerHTML = "Acceleration along Y-axis: " + accelerometer.y.toFixed(3);
+        document.getElementById("z").innerHTML = "Acceleration along Z-axis: " + accelerometer.z.toFixed(3);
+        // document.getElementById("d").innerHTML = "type of " + accelerometer.z.toFixed(2);
         
         addPoint(accelerometer.z);
-        document.getElementById("a").innerHTML = "SIGN = " + sign ;
-        document.getElementById("b").innerHTML = "STATE= " + state ;
+        // document.getElementById("a").innerHTML = "SIGN = " + sign ;
+        // document.getElementById("b").innerHTML = "STATE= " + state ;
         
         if(sign==-2 && state == 1 && stepCheckEnabled){
             state = 0;
