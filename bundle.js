@@ -23,6 +23,11 @@ var resetAmplitude = -0.1;
 const avgAmount = 30; //Average the last n samples from the sensor.
 var amountAdded = 0;
 
+var lastDirection = 5959;
+var rightCounter = 0;
+var leftCounter = 0;
+var straightCounter = 0;
+var turnHeading = "straight"; // 0 : straight -1: left 1:right
 addPoint = (z)=>{
     text.innerHTML = "ADD POINT CALLED = "+z;
     pointsZ.push(z);
@@ -100,8 +105,36 @@ document.addEventListener("DOMContentLoaded", function(event) {
 };
 
     function deviceOrientationHandler(dir) {
-      
-      document.getElementById("orientation").innerHTML = "DIRECTION" + Math.ceil(dir);
+        
+        let curDirection = Math.ceil(dir);
+        if(lastDirection == 6969){
+            lastDirection = curDirection;
+        }
+        else{
+            if(lastDirection - curDirection > 75){
+                turnHeading = "left";
+                document.getElementById("turn").innerHTML = "TURN left";
+                leftCounter+=1;
+                lastDirection = curDirection;
+            }
+            else if(lastDirection - curDirection < -75){
+                turnHeading = "right";
+                document.getElementById("turn").innerHTML = "TURN right";
+                rightCounter+=1;
+                lastDirection = curDirection;
+            }
+            else{
+                turnHeading = "straight";
+                straightCounter+=1;
+                document.getElementById("turn").innerHTML = "TURN straight";
+                // if(Math.abs(lastDirection-curDirection)>45){
+                //     lastDirection = curDirection;
+                // }
+            }
+        }
+        
+        // document.getElementById("turn").innerHTML = "TURN " + turnHeading;
+        document.getElementById("orientation").innerHTML = "DIRECTION" + lastDirection + ":" + curDirection + leftCounter + ":" + rightCounter + ":" + straightCounter;
       
       // Rotate the disc of the compass.
       // Laat de kompas schijf draaien.
